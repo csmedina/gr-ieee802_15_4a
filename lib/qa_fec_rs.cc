@@ -29,25 +29,26 @@ namespace gr {
     void
     qa_fec_rs::t1()
     {
+		fprintf (stdout, "\nTesting reed solomon basic routines.\n");
 		unsigned char msg[] = {1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,1,1,0,1,1,1,0,1,0,1,0,0,1,1,0,0,0,1,1,0,1,1,0,1,1,0,0,0,1,1,0,1,1,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0};
 		unsigned char codedMsg[184];
 		unsigned char decodedMsg[136];
 
-		ReedSolomon fec;
-		
 		fprintf (stdout, "\n");
-		fec.encode (msg, 136, codedMsg);
+		void *handle = ReedSolomon::OpenHandle ();
+		ReedSolomon::encode (msg, 136, codedMsg, handle);
 		//for (int i = 0; i < 184; ++i)
 			//fprintf (stdout, "%d;", codedMsg[i]);
 		
 		fprintf (stdout, "\n");			
-		fec.decode (codedMsg, 184, decodedMsg);
+		ReedSolomon::decode (codedMsg, 184, decodedMsg, handle);
 		//for (int i = 0; i < 136; ++i)
 			//fprintf (stdout, "msg = %d; decoded = %d\n", msg[i], decodedMsg[i]);
 		
 		for (int i = 0; i < 136; ++i)
 			CPPUNIT_ASSERT (decodedMsg[i] == msg[i]);
 			
+		ReedSolomon::CloseHandle (handle);			
     }
 
   } /* namespace ieee802_15_4a */

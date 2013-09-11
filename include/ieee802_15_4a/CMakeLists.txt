@@ -25,5 +25,7 @@ install(FILES
     spreading.h
     despreading.h
     packet_header_uwb.h
-    DESTINATION include/ieee802_15_4a
+    packet_phy_header_uwb.h
+    reedsolomon_encoder.h
+    reedsolomon_decoder.h DESTINATION include/ieee802_15_4a
 )

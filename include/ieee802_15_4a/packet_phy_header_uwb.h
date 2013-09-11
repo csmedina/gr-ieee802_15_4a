@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_IEEE802_15_4A_PACKET_HEADER_UWB_H
-#define INCLUDED_IEEE802_15_4A_PACKET_HEADER_UWB_H
+#ifndef INCLUDED_IEEE802_15_4A_PACKET_PHY_HEADER_UWB_H
+#define INCLUDED_IEEE802_15_4A_PACKET_PHY_HEADER_UWB_H
 
 #include <vector>
 #include <gnuradio/digital/packet_header_default.h>
@@ -30,27 +30,22 @@ namespace gr {
   namespace ieee802_15_4a {
 
     /*!
-     * \brief Header utility for UWB signals from IEEE 802.15.4a standard.
-     * Receives as arguments the number of repetitions of Si (Nsync) and the length of delta_L, as explained in pages 73 and 74 of the norm.
-     * The values must be according table 39c (page 71) and table 39b (page 70).
-     * The parameter code_index is the selected code index in table 39d.
-     * Nsync is 64 by standard default
-     * \ingroup ofdm_blk
+     * \brief <+description+>
+     *
      */
-    class IEEE802_15_4A_API packet_header_uwb : public gr::digital::packet_header_default
+    class IEEE802_15_4A_API packet_phy_header_uwb : public gr::digital::packet_header_default
     {
 	public:
-      typedef boost::shared_ptr<packet_header_uwb> sptr;
+      typedef boost::shared_ptr<packet_phy_header_uwb> sptr;
       
     public:
-		packet_header_uwb(int Nsync, int L, int code_index, int code_size, int Nsdf,
-		      const std::string &len_tag_key="packet_len",
-		      const std::string &num_tag_key="packet_num");
-		      
-		~packet_header_uwb(){}
-		
+      packet_phy_header_uwb(int FrameLength, int Nsync = 64, int DataRate = 850, int MeanPRF = 15600, int isRangingPacket = 0,
+				const std::string &len_tag_key="packet_len",
+				const std::string &num_tag_key="packet_num");
+      ~packet_phy_header_uwb();
+      
       static sptr make(
-	    int Nsync, int L, int code_index, int code_size, int Nsdf,
+	    int FrameLength, int Nsync, int DataRate, int MeanPRF, int isRangingPacket,
 	    const std::string &len_tag_key="packet_len",
 	    const std::string &num_tag_key="packet_num"
       );
@@ -73,21 +68,21 @@ namespace gr {
       virtual bool header_parser(const unsigned char *header, std::vector<tag_t> &tags);
       
     private:
-		// Generate the sync section of the shr, the stream parameter must have the appropriate size (Nsync * L * 31<the size of the ternary code>).
-		void get_sync_section (unsigned char *stream);		
-		// Generate the sfd section of the shr, the stream parameter must have the appropriate size (L * 8<the size of the SFD sequence (see page 74)>).
-		void get_sfd_section (unsigned char *stream);
+		// Generate the phr, the stream parameter must have the appropriate size (19 bytes see page 75).
+		// Receives as arguments the frame length, which is the only variable parameter, the others are the default (see page 75-76)
+		void get_phr (unsigned char *stream);
+		
 		
 	private:
 	  int _Nsync;
-	  int _L;
-	  int _code_index;
-	  int _code_size;
-	  int _Nsdf;
+	  int _DataRate;
+	  int _FrameLength;
+	  int _isRangingPacket;
+	  int _MeanPRF;	  
     };
 
   } // namespace ieee802_15_4a
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_15_4A_PACKET_HEADER_UWB_H */
+#endif /* INCLUDED_IEEE802_15_4A_PACKET_PHY_HEADER_UWB_H */
 

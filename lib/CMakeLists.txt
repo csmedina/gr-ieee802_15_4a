@@ -27,9 +27,11 @@ link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND ieee802_15_4a_sources
     spreading_impl.cc
     despreading_impl.cc
-    fec_rs.cc
     packet_header_uwb.cc
-    )
+    packet_phy_header_uwb.cc
+    fec_rs.cc
+    reedsolomon_encoder_impl.cc
+    reedsolomon_decoder_impl.cc )
 
 add_library(gnuradio-ieee802_15_4a SHARED ${ieee802_15_4a_sources})
 target_link_libraries(gnuradio-ieee802_15_4a ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} gnuradio-fec gnuradio-digital gnuradio-runtime gnuradio-pmt)
@@ -53,6 +55,7 @@ include_directories(${CPPUNIT_INCLUDE_DIRS})
 list(APPEND test_ieee802_15_4a_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/test_ieee802_15_4a.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qa_ieee802_15_4a.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_phy_header_uwb.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_header_uwb.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qa_despreading.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qa_spreading.cc

@@ -24,6 +24,8 @@
 
 #include <gnuradio/io_signature.h>
 #include <ieee802_15_4a/packet_header_uwb.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 namespace gr {
   namespace ieee802_15_4a {
@@ -49,7 +51,7 @@ namespace gr {
 				len_tag_key,
 				num_tag_key,
 				1
-			), _Nsync(Nsync), _L(L), _code_index(code_index), _code_size(code_size), _Nsdf(Nsdf)
+			), _Nsync(Nsync), _L(L), _code_index(code_index - 1), _code_size(code_size), _Nsdf(Nsdf)
 	{
 	}
 	
@@ -120,15 +122,14 @@ namespace gr {
 		const std::vector<tag_t> &tags
       )
     {
-		packet_header_default :: header_formatter (packet_len, out, tags);
 		get_sync_section (out);
 		get_sfd_section (out + _Nsync * _L * _code_size);
+		return true;
 	}
       
 
     bool packet_header_uwb::header_parser(const unsigned char *header, std::vector<tag_t> &tags)
     {
-		packet_header_default :: header_parser (header, tags);
 		return true;
 	}
 

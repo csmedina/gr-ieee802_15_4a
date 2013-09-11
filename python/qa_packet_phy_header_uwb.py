@@ -25,7 +25,7 @@ from gnuradio import digital
 from gnuradio import blocks
 from gnuradio.digital.utils import tagged_streams
 
-class qa_packet_header_uwb (gr_unittest.TestCase):
+class qa_packet_phy_header_uwb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -34,12 +34,13 @@ class qa_packet_header_uwb (gr_unittest.TestCase):
         self.tb = None
 
     def test_001_t (self):
-        self.header_formatter = header_formatter = ieee802_15_4a.packet_header_uwb(16, 16, 5, 31, 8)
+        FrameLength = 96
+        self.header_formatter = header_formatter = ieee802_15_4a.packet_phy_header_uwb(FrameLength, 64, 850, 15600,0)
         
-        self.blocks_vector_source = blocks.vector_source_b(range(96), False, 1, tagged_streams.make_lengthtags((96,), (0,), "packet_len"))        
+        self.blocks_vector_source = blocks.vector_source_b(range(FrameLength), False, 1, tagged_streams.make_lengthtags((FrameLength,), (0,), "packet_len"))        
         self.blocks_tagged_stream_mux = blocks.tagged_stream_mux(1, "packet_len")        
         self.digital_packet_headergenerator_uwb = digital.packet_headergenerator_bb(header_formatter.formatter())
-        self.sink = blocks.file_sink (1, "output_uwb.txt")
+        self.sink = blocks.file_sink (1, "output_phy_uwb.txt")
         
         self.tb.connect((self.blocks_vector_source, 0), (self.digital_packet_headergenerator_uwb, 0))
         self.tb.connect((self.blocks_vector_source, 0), (self.blocks_tagged_stream_mux, 1))
@@ -50,4 +51,4 @@ class qa_packet_header_uwb (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_packet_header_uwb, "qa_packet_header_uwb.xml")
+    gr_unittest.run(qa_packet_phy_header_uwb, "qa_packet_phy_header_uwb.xml")

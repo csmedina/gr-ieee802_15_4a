@@ -52,7 +52,6 @@ static struct {
 	  for (idx = 0; idx < 63; ++idx)
 	  {
 		  symb[idx] = bin[6*idx+5] * 32 + bin[6*idx+4] * 16 + bin[6*idx+3] * 8 + bin[6*idx+2] * 4 + bin[6*idx+1] * 2 + bin[6*idx];
-		  //fprintf (stdout, "%d\t", symb[idx]);
 	  }
   }
    
@@ -71,62 +70,43 @@ static struct {
 		  bin[6*idx + 4] = (msg>>4) & 0x01;
 		  bin[6*idx + 5] = (msg>>5) & 0x01;
 	  }
-	  /*for (int idx = 0; idx < 378; ++idx)
-	  {
-		  fprintf (stdout, "%d  ", bin[idx]);
-	  }*/
   }
   
 namespace gr {
   namespace ieee802_15_4a {
 
-	  void ReedSolomon :: encode (const unsigned char *msg, int len, unsigned char *codedMsg)
+	  void *ReedSolomon :: OpenHandle ()
 	  {
-		  void *handle;
+		  return init_rs_char(Tab.symsize,Tab.genpoly,Tab.fcs,Tab.prim,Tab.nroots);
+	  }
+	  
+	  void ReedSolomon :: CloseHandle (void *handle)
+	  {
+		  free_rs_char(handle);
+	  }
+	  
+	  void ReedSolomon :: encode (const unsigned char *msg, int len, unsigned char *codedMsg, void *handle)
+	  {  
 		  unsigned char padded[378];
 		  unsigned char block[63];
 		  unsigned char bin[378];
-		  
-		  if((handle = init_rs_char(Tab.symsize,Tab.genpoly,Tab.fcs,Tab.prim,Tab.nroots)) == NULL)
-		  {
-			  printf("init_rs_char failed!\n");
-			  return;
-		  }
 		  
 		  memset (padded, 0x00, 378);
 		  memcpy (padded + 330 - len, msg, len);
 		  bin2symb (padded, block);
 		  
 		  encode_rs_char(handle, block, &block[55]);
-		  
-		  /*for (int idx = 0; idx < 63; ++idx)
-		  {
-			  fprintf (stdout, "%d\t", block[idx]);
-		  }
-		  */ 
+
 		  symb2bin (block, bin);
 		  
 		  memcpy (codedMsg, bin + 330 - len, len + 48);
-		  /*for (int idx = 0; idx < 184; ++idx)
-		  {
-			  fprintf (stdout, "%d\t", codedMsg[idx]);
-		  }*/
-		  		  
-		  free_rs_char(handle);
 	  }
 	  
-	  void ReedSolomon :: decode (const unsigned char *codedMsg, int len, unsigned char *msg)
+	  void ReedSolomon :: decode (const unsigned char *codedMsg, int len, unsigned char *msg, void *handle)
 	  {
-		  void *handle;
 		  unsigned char padded[378];
 		  unsigned char block[63];
 		  unsigned char bin[378];
-		  
-		  if((handle = init_rs_char(Tab.symsize,Tab.genpoly,Tab.fcs,Tab.prim,Tab.nroots)) == NULL)
-		  {
-			  printf("init_rs_char failed!\n");
-			  return;
-		  }
 		  
 		  memset (padded, 0x00, 378);
 		  memcpy (padded + 378 - len, codedMsg, len);
@@ -136,8 +116,6 @@ namespace gr {
 		  
 		  symb2bin (block, bin);
 		  memcpy (msg, bin + 378 - len, len - 48);
-		  
-		  free_rs_char(handle);
 	  }
   } /* namespace ieee802_15_4a */
 } /* namespace gr */

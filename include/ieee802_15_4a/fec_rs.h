@@ -32,8 +32,10 @@ namespace gr {
 		  public:
 			ReedSolomon () {};
 			~ReedSolomon () {};
-			void encode (const unsigned char *msg, int len, unsigned char *codedMsg);
-			void decode (const unsigned char *codedMsg, int len, unsigned char *msg);
+			static void *OpenHandle ();
+			static void CloseHandle (void *handle);
+			static void encode (const unsigned char *msg, int len, unsigned char *codedMsg, void *handle);
+			static void decode (const unsigned char *codedMsg, int len, unsigned char *msg, void *handle);
 	  };
 	  
   } /* namespace ieee802_15_4a */
