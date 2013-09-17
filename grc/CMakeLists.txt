@@ -22,5 +22,7 @@ install(FILES
     ieee802_15_4a_packet_header_uwb.xml
     ieee802_15_4a_packet_phy_header_uwb.xml
     ieee802_15_4a_reedsolomon_encoder.xml
-    ieee802_15_4a_reedsolomon_decoder.xml DESTINATION share/gnuradio/grc/blocks
+    ieee802_15_4a_reedsolomon_decoder.xml
+    ieee802_15_4a_conv_encoder.xml
+    ieee802_15_4a_viterbi.xml DESTINATION share/gnuradio/grc/blocks
 )

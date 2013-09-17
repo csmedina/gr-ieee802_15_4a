@@ -31,7 +31,10 @@ list(APPEND ieee802_15_4a_sources
     packet_phy_header_uwb.cc
     fec_rs.cc
     reedsolomon_encoder_impl.cc
-    reedsolomon_decoder_impl.cc )
+    reedsolomon_decoder_impl.cc
+    viterbi/metrics.c viterbi/viterbi.c viterbi/tab.c
+    conv_encoder_impl.cc
+    viterbi_impl.cc )
 
 add_library(gnuradio-ieee802_15_4a SHARED ${ieee802_15_4a_sources})
 target_link_libraries(gnuradio-ieee802_15_4a ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} gnuradio-fec gnuradio-digital gnuradio-runtime gnuradio-pmt)

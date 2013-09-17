@@ -27,5 +27,7 @@ install(FILES
     packet_header_uwb.h
     packet_phy_header_uwb.h
     reedsolomon_encoder.h
-    reedsolomon_decoder.h DESTINATION include/ieee802_15_4a
+    reedsolomon_decoder.h
+    conv_encoder.h
+    viterbi.h DESTINATION include/ieee802_15_4a
 )

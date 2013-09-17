@@ -47,3 +47,5 @@ GR_ADD_TEST(qa_packet_header_uwb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR
 GR_ADD_TEST(qa_packet_phy_header_uwb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_phy_header_uwb.py)
 GR_ADD_TEST(qa_reedsolomon_encoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_reedsolomon_encoder.py)
 GR_ADD_TEST(qa_reedsolomon_decoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_reedsolomon_decoder.py)
+GR_ADD_TEST(qa_conv_encoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_conv_encoder.py)
+GR_ADD_TEST(qa_viterbi ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_viterbi.py)
