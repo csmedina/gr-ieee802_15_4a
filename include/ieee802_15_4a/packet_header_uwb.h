@@ -43,7 +43,7 @@ namespace gr {
       typedef boost::shared_ptr<packet_header_uwb> sptr;
       
     public:
-		packet_header_uwb(int Nsync, int L, int code_index, int code_size, int Nsdf,
+		packet_header_uwb(int Nsync = 64, int L = 16, int code_index = 5, int code_size = 31, int Nsdf = 8,
 		      const std::string &len_tag_key="packet_len",
 		      const std::string &num_tag_key="packet_num");
 		      

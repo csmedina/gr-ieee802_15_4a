@@ -112,10 +112,10 @@
 #include "ieee802_15_4a/despreading.h"
 #include "ieee802_15_4a/packet_header_uwb.h"
 #include "ieee802_15_4a/packet_phy_header_uwb.h"
-#include "ieee802_15_4a/reedsolomon_encoder.h"
-#include "ieee802_15_4a/reedsolomon_decoder.h"
+#include "ieee802_15_4a/reedsolomon.h"
 #include "ieee802_15_4a/conv_encoder.h"
 #include "ieee802_15_4a/viterbi.h"
+#include "ieee802_15_4a/bpsk_bpm_modulator.h"
 %}
 
 %include "gnuradio/digital/additive_scrambler_bb.h"
@@ -253,11 +253,14 @@ GR_SWIG_BLOCK_MAGIC_FACTORY(digital, cpmmod_bc, gmskmod_bc);
 %include "packet_header.i"
 %include "ofdm_equalizer.i"
 
-%include "ieee802_15_4a/reedsolomon_encoder.h"
-GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, reedsolomon_encoder);
-%include "ieee802_15_4a/reedsolomon_decoder.h"
-GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, reedsolomon_decoder);
+%include "ieee802_15_4a/reedsolomon.h"
+GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, reedsolomon);
+
 %include "ieee802_15_4a/conv_encoder.h"
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, conv_encoder);
 %include "ieee802_15_4a/viterbi.h"
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, viterbi);
+
+%include "ieee802_15_4a/bpsk_bpm_modulator.h"
+GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, bpsk_bpm_modulator);
+

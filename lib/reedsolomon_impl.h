@@ -18,28 +18,33 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IEEE802_15_4A_REEDSOLOMON_ENCODER_IMPL_H
-#define INCLUDED_IEEE802_15_4A_REEDSOLOMON_ENCODER_IMPL_H
+#ifndef INCLUDED_IEEE802_15_4A_REEDSOLOMON_IMPL_H
+#define INCLUDED_IEEE802_15_4A_REEDSOLOMON_IMPL_H
 
-#include <ieee802_15_4a/reedsolomon_encoder.h>
+#include <ieee802_15_4a/reedsolomon.h>
 
 namespace gr {
   namespace ieee802_15_4a {
 
-    class reedsolomon_encoder_impl : public reedsolomon_encoder
+    class reedsolomon_impl : public reedsolomon
     {
      private:
       void *handle;
+      int _encode;
+      int _datasize;
       
-     protected:
-      int calculate_output_stream_length(const gr_vector_int &ninput_items);
-
+      void encode (const unsigned char *msg, int len, unsigned char *codedMsg);
+	  
+	  void decode (const unsigned char *codedMsg, int len, unsigned char *msg);
+     
      public:
-      reedsolomon_encoder_impl(const std::string& len_tag_key="packet_len");
-      ~reedsolomon_encoder_impl();
+      reedsolomon_impl(int datasize, int encode = 1);
+      ~reedsolomon_impl();
 
       // Where all the action really happens
-      int work(int noutput_items,
+      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+
+      int general_work(int noutput_items,
 		       gr_vector_int &ninput_items,
 		       gr_vector_const_void_star &input_items,
 		       gr_vector_void_star &output_items);
@@ -48,5 +53,5 @@ namespace gr {
   } // namespace ieee802_15_4a
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_15_4A_REEDSOLOMON_ENCODER_IMPL_H */
+#endif /* INCLUDED_IEEE802_15_4A_REEDSOLOMON_IMPL_H */
 

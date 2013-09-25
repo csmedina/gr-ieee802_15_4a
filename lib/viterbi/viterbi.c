@@ -70,11 +70,13 @@ unsigned int endstate)
   unsigned int encstate = startstate;   
    
   while(nbytes-- != 0){   
-    for(i=7;i>=0;i--){   
-      encstate = (encstate << 1) | ((*data >> i) & 1);   
+	  //csmedina each input data contains only one bit
+    //for(i=7;i>=0;i--){   
+      //encstate = (encstate << 1) | ((*data >> i) & 1);   
+      encstate = (encstate << 1) | (*data & 1);   
       for(j=0;j<N;j++)   
     *symbols++ = parity(encstate & Polys[j]);   
-    }   
+    //}   
     data++;   
   }   
   /* Flush out tail */   

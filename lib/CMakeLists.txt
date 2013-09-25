@@ -29,12 +29,12 @@ list(APPEND ieee802_15_4a_sources
     despreading_impl.cc
     packet_header_uwb.cc
     packet_phy_header_uwb.cc
-    fec_rs.cc
-    reedsolomon_encoder_impl.cc
-    reedsolomon_decoder_impl.cc
+    reedsolomon_impl.cc
     viterbi/metrics.c viterbi/viterbi.c viterbi/tab.c
     conv_encoder_impl.cc
-    viterbi_impl.cc )
+    viterbi_impl.cc
+    bpsk_bpm_modulator_impl.cc
+    )
 
 add_library(gnuradio-ieee802_15_4a SHARED ${ieee802_15_4a_sources})
 target_link_libraries(gnuradio-ieee802_15_4a ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} gnuradio-fec gnuradio-digital gnuradio-runtime gnuradio-pmt)
@@ -56,13 +56,12 @@ include(GrTest)
 
 include_directories(${CPPUNIT_INCLUDE_DIRS})
 list(APPEND test_ieee802_15_4a_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_ieee802_15_4a.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_ieee802_15_4a.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_phy_header_uwb.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_header_uwb.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_despreading.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_spreading.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_fec_rs.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/test_ieee802_15_4a.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/qa_ieee802_15_4a.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_phy_header_uwb.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_header_uwb.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/qa_despreading.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/qa_spreading.cc
 )
 
 add_executable(test-ieee802_15_4a ${test_ieee802_15_4a_sources})

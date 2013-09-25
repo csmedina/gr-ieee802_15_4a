@@ -18,26 +18,29 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IEEE802_15_4A_REEDSOLOMON_DECODER_IMPL_H
-#define INCLUDED_IEEE802_15_4A_REEDSOLOMON_DECODER_IMPL_H
+#ifndef INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_IMPL_H
+#define INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_IMPL_H
 
-#include <ieee802_15_4a/reedsolomon_decoder.h>
-
+#include <ieee802_15_4a/bpsk_bpm_modulator.h>
+#include <ieee802_15_4a/lfsr.h>
 
 namespace gr {
   namespace ieee802_15_4a {
 
-    class reedsolomon_decoder_impl : public reedsolomon_decoder
+    class bpsk_bpm_modulator_impl : public bpsk_bpm_modulator
     {
      private:
-      void *handle;
-
+      int _Nburst;
+      int _Ncpb;
+      int _code_index;
+      lfsr _lfsr;
+     
      protected:
       int calculate_output_stream_length(const gr_vector_int &ninput_items);
 
      public:
-      reedsolomon_decoder_impl(const std::string& len_tag_key="packet_len");
-      ~reedsolomon_decoder_impl();
+      bpsk_bpm_modulator_impl(int code_index, int Nburst = 32, int Ncpb = 16, const std::string& len_tag_key="packet_len");
+      ~bpsk_bpm_modulator_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
@@ -49,5 +52,5 @@ namespace gr {
   } // namespace ieee802_15_4a
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_15_4A_REEDSOLOMON_DECODER_IMPL_H */
+#endif /* INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_IMPL_H */
 

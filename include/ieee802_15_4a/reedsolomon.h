@@ -19,11 +19,11 @@
  */
 
 
-#ifndef INCLUDED_IEEE802_15_4A_REEDSOLOMON_ENCODER_H
-#define INCLUDED_IEEE802_15_4A_REEDSOLOMON_ENCODER_H
+#ifndef INCLUDED_IEEE802_15_4A_REEDSOLOMON_H
+#define INCLUDED_IEEE802_15_4A_REEDSOLOMON_H
 
 #include <ieee802_15_4a/api.h>
-#include <gnuradio/tagged_stream_block.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace ieee802_15_4a {
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup ieee802_15_4a
      *
      */
-    class IEEE802_15_4A_API reedsolomon_encoder : virtual public gr::tagged_stream_block
+    class IEEE802_15_4A_API reedsolomon : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<reedsolomon_encoder> sptr;
+      typedef boost::shared_ptr<reedsolomon> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of ieee802_15_4a::reedsolomon_encoder.
+       * \brief Return a shared_ptr to a new instance of ieee802_15_4a::reedsolomon.
        *
-       * To avoid accidental use of raw pointers, ieee802_15_4a::reedsolomon_encoder's
+       * To avoid accidental use of raw pointers, ieee802_15_4a::reedsolomon's
        * constructor is in a private implementation
-       * class. ieee802_15_4a::reedsolomon_encoder::make is the public interface for
+       * class. ieee802_15_4a::reedsolomon::make is the public interface for
        * creating new instances.
        */
-      static sptr make(const std::string& len_tag_key="packet_len");
+      static sptr make(int datasize, int encode = 1);
     };
 
   } // namespace ieee802_15_4a
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_15_4A_REEDSOLOMON_ENCODER_H */
+#endif /* INCLUDED_IEEE802_15_4A_REEDSOLOMON_H */
 

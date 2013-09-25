@@ -42,14 +42,12 @@ class qa_conv_encoder (gr_unittest.TestCase):
         print (sz)
                         
         self.blocks_vector_source = blocks.vector_source_b(raw_data, False, 1, tagged_streams.make_lengthtags((sz,), (0,), "packet_len"));
-        self.blocks_packet_bits = blocks.pack_k_bits_bb(8);
         self.encoder = ieee802_15_4a.conv_encoder (0);
         
         self.sink = blocks.vector_sink_b(1)
         self.sink_infile = blocks.file_sink (1, "output_in_viterbi.txt")
         
-        self.tb.connect (self.blocks_vector_source, self.blocks_packet_bits)
-        self.tb.connect (self.blocks_packet_bits, self.encoder)
+        self.tb.connect (self.blocks_vector_source, self.encoder)
         self.tb.connect (self.encoder, self.sink)
         
         self.tb.connect (self.encoder, self.sink_infile)

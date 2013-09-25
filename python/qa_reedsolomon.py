@@ -27,7 +27,7 @@ from gnuradio.digital.utils import tagged_streams
 
 randBinList = lambda n: [randint(0,1) for b in range(1,n+1)]
 
-class qa_reedsolomon_decoder (gr_unittest.TestCase):
+class qa_reedsolomon (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -36,21 +36,23 @@ class qa_reedsolomon_decoder (gr_unittest.TestCase):
         self.tb = None
 
     def test_001_t (self):
-        sz = 660;
+        sz = 1060;
         raw_data = randBinList (sz)
                 
         self.blocks_vector_source = blocks.vector_source_b(raw_data, False, 1, tagged_streams.make_lengthtags((sz,), (0,), "packet_len"));
-        self.encoder = ieee802_15_4a.reedsolomon_encoder ("packet_len");
-        self.decoder = ieee802_15_4a.reedsolomon_decoder ("packet_len");
+        self.encoder = ieee802_15_4a.reedsolomon (sz, 1);
+        self.decoder = ieee802_15_4a.reedsolomon (378*(sz/330)+(sz%330+48), 0);
         self.sink = blocks.vector_sink_b(1)
-        self.sink_infile = blocks.file_sink (1, "output_in_encoder.txt")
-        self.sink_outfile = blocks.file_sink (1, "output_out_encoder.txt")
+        self.sink_infile = blocks.file_sink (1, "output_reedsolomon_raw.txt")
+        self.sink_codedfile = blocks.file_sink (1, "output_reedsolomon_coded.txt")
+        self.sink_decodedfile = blocks.file_sink (1, "output_reedsolomon_decoded.txt")
         
         self.tb.connect (self.blocks_vector_source, self.encoder)
-        self.tb.connect (self.encoder, self.decoder)
-        self.tb.connect (self.decoder, self.sink)
-        self.tb.connect (self.decoder, self.sink_outfile)
         self.tb.connect (self.blocks_vector_source, self.sink_infile)
+        self.tb.connect (self.encoder, self.decoder)
+        self.tb.connect (self.encoder, self.sink_codedfile)
+        self.tb.connect (self.decoder, self.sink)
+        self.tb.connect (self.decoder, self.sink_decodedfile)        
         
         # set up fg
         self.tb.run ()
@@ -61,4 +63,4 @@ class qa_reedsolomon_decoder (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_reedsolomon_decoder, "qa_reedsolomon_decoder.xml")
+    gr_unittest.run(qa_reedsolomon, "qa_reedsolomon.xml")

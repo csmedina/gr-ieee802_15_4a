@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_IEEE802_15_4A_REEDSOLOMON_DECODER_H
-#define INCLUDED_IEEE802_15_4A_REEDSOLOMON_DECODER_H
+#ifndef INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_H
+#define INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_H
 
 #include <ieee802_15_4a/api.h>
 #include <gnuradio/tagged_stream_block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup ieee802_15_4a
      *
      */
-    class IEEE802_15_4A_API reedsolomon_decoder : virtual public gr::tagged_stream_block
+    class IEEE802_15_4A_API bpsk_bpm_modulator : virtual public gr::tagged_stream_block
     {
      public:
-      typedef boost::shared_ptr<reedsolomon_decoder> sptr;
+      typedef boost::shared_ptr<bpsk_bpm_modulator> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of ieee802_15_4a::reedsolomon_decoder.
+       * \brief Return a shared_ptr to a new instance of ieee802_15_4a::bpsk_bpm_modulator.
        *
-       * To avoid accidental use of raw pointers, ieee802_15_4a::reedsolomon_decoder's
+       * To avoid accidental use of raw pointers, ieee802_15_4a::bpsk_bpm_modulator's
        * constructor is in a private implementation
-       * class. ieee802_15_4a::reedsolomon_decoder::make is the public interface for
+       * class. ieee802_15_4a::bpsk_bpm_modulator::make is the public interface for
        * creating new instances.
        */
-      static sptr make(const std::string& len_tag_key="packet_len");
+      static sptr make(int code_index, int Nburst = 32, int Ncpb = 16, const std::string& len_tag_key="packet_len");
     };
 
   } // namespace ieee802_15_4a
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_15_4A_REEDSOLOMON_DECODER_H */
+#endif /* INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_H */
 

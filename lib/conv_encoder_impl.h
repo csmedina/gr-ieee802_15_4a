@@ -30,15 +30,19 @@ namespace gr {
     {
      private:
       int _bypass;
+      
+     protected:
+     int calculate_output_stream_length(const gr_vector_int &ninput_items);
 
      public:
-      conv_encoder_impl(int bypass = 0);
+      conv_encoder_impl(int bypass = 0, const std::string& len_tag_key="packet_len");
       ~conv_encoder_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
-	       gr_vector_const_void_star &input_items,
-	       gr_vector_void_star &output_items);
+		       gr_vector_int &ninput_items,
+		       gr_vector_const_void_star &input_items,
+		       gr_vector_void_star &output_items);
     };
 
   } // namespace ieee802_15_4a

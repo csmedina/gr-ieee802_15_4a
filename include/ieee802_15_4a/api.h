@@ -30,7 +30,4 @@
 #  define IEEE802_15_4A_API __GR_ATTR_IMPORT
 #endif
 
-void encode (const unsigned char *msg, int len, unsigned char *codedMsg);
-void decode (const unsigned char *codedMsg, int len, unsigned char *msg);
-
 #endif /* INCLUDED_IEEE802_15_4A_API_H */

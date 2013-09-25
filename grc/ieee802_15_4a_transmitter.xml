@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>reedsolomon_encoder</name>
-  <key>ieee802_15_4a_reedsolomon_encoder</key>
+  <name>transmitter</name>
+  <key>ieee802_15_4a_transmitter</key>
   <category>ieee802_15_4a</category>
   <import>import ieee802_15_4a</import>
-  <make>ieee802_15_4a.reedsolomon_encoder($)</make>
+  <make>ieee802_15_4a.transmitter($)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

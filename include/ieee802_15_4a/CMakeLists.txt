@@ -26,8 +26,9 @@ install(FILES
     despreading.h
     packet_header_uwb.h
     packet_phy_header_uwb.h
-    reedsolomon_encoder.h
-    reedsolomon_decoder.h
+    reedsolomon.h
     conv_encoder.h
-    viterbi.h DESTINATION include/ieee802_15_4a
+    viterbi.h
+    bpsk_bpm_modulator.h
+    DESTINATION include/ieee802_15_4a
 )
