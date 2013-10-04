@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>packet_phy_header_uwb</name>
-  <key>ieee802_15_4a_packet_phy_header_uwb</key>
+  <name>msg_formatter</name>
+  <key>ieee802_15_4a_msg_formatter</key>
   <category>ieee802_15_4a</category>
   <import>import ieee802_15_4a</import>
-  <make>ieee802_15_4a.packet_phy_header_uwb($Nsync, $DataRate, $FrameLenth, $isRangingPacket)</make>
+  <make>ieee802_15_4a.msg_formatter($)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

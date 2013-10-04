@@ -28,8 +28,6 @@
 #include "qa_ieee802_15_4a.h"
 #include "qa_spreading.h"
 #include "qa_despreading.h"
-#include "qa_packet_header_uwb.h"
-#include "qa_packet_phy_header_uwb.h"
 
 CppUnit::TestSuite *
 qa_ieee802_15_4a::suite()
@@ -37,8 +35,6 @@ qa_ieee802_15_4a::suite()
   CppUnit::TestSuite *s = new CppUnit::TestSuite("ieee802_15_4a");
   s->addTest(gr::ieee802_15_4a::qa_spreading::suite());
   s->addTest(gr::ieee802_15_4a::qa_despreading::suite());
-  s->addTest(gr::ieee802_15_4a::qa_packet_header_uwb::suite());
-  s->addTest(gr::ieee802_15_4a::qa_packet_phy_header_uwb::suite());
 
   return s;
 }

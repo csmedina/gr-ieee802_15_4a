@@ -31,7 +31,8 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    transmitter.py DESTINATION ${GR_PYTHON_DIR}/ieee802_15_4a
+    ieee804154a_uwb_pkt.py
+    DESTINATION ${GR_PYTHON_DIR}/ieee802_15_4a
 )
 
 ########################################################################
@@ -44,9 +45,7 @@ set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_spreading ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_spreading.py)
 GR_ADD_TEST(qa_despreading ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_despreading.py)
 GR_ADD_TEST(qa_packet_header_uwb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_header_uwb.py)
-GR_ADD_TEST(qa_packet_phy_header_uwb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_packet_phy_header_uwb.py)
-GR_ADD_TEST(qa_reedsolomon ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_reedsolomon.py)
 GR_ADD_TEST(qa_conv_encoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_conv_encoder.py)
 GR_ADD_TEST(qa_viterbi ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_viterbi.py)
-GR_ADD_TEST(qa_transmitter ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_transmitter.py)
 GR_ADD_TEST(qa_bpsk_bpm_modulator ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_bpsk_bpm_modulator.py)
+GR_ADD_TEST(qa_ieee804154a_uwb_pkt ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ieee804154a_uwb_pkt.py)

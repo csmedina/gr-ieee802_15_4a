@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>transmitter</name>
-  <key>ieee802_15_4a_transmitter</key>
+  <name>ieee804154a_uwb_pkt</name>
+  <key>ieee802_15_4a_ieee804154a_uwb_pkt</key>
   <category>ieee802_15_4a</category>
   <import>import ieee802_15_4a</import>
-  <make>ieee802_15_4a.transmitter($)</make>
+  <make>ieee802_15_4a.ieee804154a_uwb_pkt($)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

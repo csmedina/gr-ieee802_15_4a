@@ -111,11 +111,11 @@
 #include "ieee802_15_4a/spreading.h"
 #include "ieee802_15_4a/despreading.h"
 #include "ieee802_15_4a/packet_header_uwb.h"
-#include "ieee802_15_4a/packet_phy_header_uwb.h"
-#include "ieee802_15_4a/reedsolomon.h"
 #include "ieee802_15_4a/conv_encoder.h"
 #include "ieee802_15_4a/viterbi.h"
 #include "ieee802_15_4a/bpsk_bpm_modulator.h"
+#include "ieee802_15_4a/msg_formatter.h"
+#include "ieee802_15_4a/reedsolomon.h"
 %}
 
 %include "gnuradio/digital/additive_scrambler_bb.h"
@@ -185,8 +185,6 @@
 %include "ieee802_15_4a/spreading.h"
 %include "ieee802_15_4a/despreading.h"
 %include "ieee802_15_4a/packet_header_uwb.h"
-%include "ieee802_15_4a/packet_phy_header_uwb.h"
-
 GR_SWIG_BLOCK_MAGIC2(digital, additive_scrambler_bb);
 GR_SWIG_BLOCK_MAGIC2(digital, binary_slicer_fb);
 GR_SWIG_BLOCK_MAGIC2(digital, chunks_to_symbols_bc);
@@ -244,7 +242,7 @@ GR_SWIG_BLOCK_MAGIC2(digital, simple_framer);
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, despreading);
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, spreading);
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, packet_header_uwb);
-GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, packet_phy_header_uwb);
+
 
 GR_SWIG_BLOCK_MAGIC_FACTORY(digital, cpmmod_bc, gmskmod_bc);
 
@@ -253,8 +251,6 @@ GR_SWIG_BLOCK_MAGIC_FACTORY(digital, cpmmod_bc, gmskmod_bc);
 %include "packet_header.i"
 %include "ofdm_equalizer.i"
 
-%include "ieee802_15_4a/reedsolomon.h"
-GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, reedsolomon);
 
 %include "ieee802_15_4a/conv_encoder.h"
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, conv_encoder);
@@ -263,4 +259,12 @@ GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, viterbi);
 
 %include "ieee802_15_4a/bpsk_bpm_modulator.h"
 GR_SWIG_BLOCK_MAGIC2(ieee802_15_4a, bpsk_bpm_modulator);
+
+%include "ieee802_15_4a/msg_formatter.h"
+%pythoncode %{
+make_from_string = msg_formatter.make_from_string
+make_from_string_Bb = msg_formatter.make_from_string_Bb
+%}
+
+%include "ieee802_15_4a/reedsolomon.h"
 

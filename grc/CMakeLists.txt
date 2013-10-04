@@ -20,11 +20,11 @@ install(FILES
     ieee802_15_4a_spreading.xml
     ieee802_15_4a_despreading.xml
     ieee802_15_4a_packet_header_uwb.xml
-    ieee802_15_4a_packet_phy_header_uwb.xml
-    ieee802_15_4a_reedsolomon.xml
     ieee802_15_4a_conv_encoder.xml
     ieee802_15_4a_viterbi.xml
-    ieee802_15_4a_transmitter.xml
     ieee802_15_4a_bpsk_bpm_modulator.xml
+    ieee802_15_4a_msg_formatter.xml
+    ieee802_15_4a_reedsolomon.xml
+    ieee802_15_4a_ieee804154a_uwb_pkt.xml
     DESTINATION share/gnuradio/grc/blocks
 )

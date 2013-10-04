@@ -19,16 +19,17 @@
 # Boston, MA 02110-1301, USA.
 # 
 
-from gnuradio import gr, gr_unittest
-import ieee802_15_4a_swig as ieee802_15_4a
-from gnuradio import digital
-from gnuradio import blocks
-from gnuradio.digital.utils import tagged_streams
 from random import *
+
+from gnuradio import gr, gr_unittest
+from gnuradio import blocks
+
+import ieee802_15_4a_swig as ieee802_15_4a
+from ieee804154a_uwb_pkt import ieee804154a_uwb_mod_pkt
 
 randBinList = lambda n: [randint(0,1) for b in range(1,n+1)]
 
-class qa_bpsk_bpm_modulator (gr_unittest.TestCase):
+class qa_ieee804154a_uwb_pkt (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -37,21 +38,14 @@ class qa_bpsk_bpm_modulator (gr_unittest.TestCase):
         self.tb = None
 
     def test_001_t (self):
-        self.blocks_vector_source = blocks.vector_source_b(randBinList(2), False, 1, tagged_streams.make_lengthtags((1,), (0,), "packet_len"))
-        self.modulator = ieee802_15_4a.bpsk_bpm_modulator(6, 32, 16)
-        self.sink = blocks.file_sink (1, "output_bpsk_bpm.txt")
-        self.out = blocks.vector_sink_b()
+        self.modulator = ieee804154a_uwb_mod_pkt (5);
+        self.sink = blocks.file_sink (1, "output_tx.txt")
         
-        self.tb.connect((self.blocks_vector_source, 0), (self.modulator, 0))
-        self.tb.connect((self.modulator, 0), (self.sink, 0))
-        self.tb.connect((self.modulator, 0), (self.out, 0))
-        
+        self.tb.connect (self.modulator, self.sink)
+        self.modulator.send_pkt('esta é minha menssagem')
         # set up fg
-        self.tb.run ()
-        # check data
-        data = self.out.data()
-        print (data)
-
+        self.tb.start ()
+        
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_bpsk_bpm_modulator, "qa_bpsk_bpm_modulator.xml")
+    gr_unittest.run(qa_ieee804154a_uwb_pkt, "qa_ieee804154a_uwb_pkt.xml")

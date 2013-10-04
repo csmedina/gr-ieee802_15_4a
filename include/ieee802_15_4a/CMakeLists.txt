@@ -25,10 +25,10 @@ install(FILES
     spreading.h
     despreading.h
     packet_header_uwb.h
-    packet_phy_header_uwb.h
-    reedsolomon.h
     conv_encoder.h
     viterbi.h
     bpsk_bpm_modulator.h
+    msg_formatter.h
+    reedsolomon.h
     DESTINATION include/ieee802_15_4a
 )

@@ -23,7 +23,7 @@
 #define INCLUDED_IEEE802_15_4A_BPSK_BPM_MODULATOR_H
 
 #include <ieee802_15_4a/api.h>
-#include <gnuradio/tagged_stream_block.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace ieee802_15_4a {
@@ -33,7 +33,7 @@ namespace gr {
      * \ingroup ieee802_15_4a
      *
      */
-    class IEEE802_15_4A_API bpsk_bpm_modulator : virtual public gr::tagged_stream_block
+    class IEEE802_15_4A_API bpsk_bpm_modulator : virtual public gr::block
     {
      public:
       typedef boost::shared_ptr<bpsk_bpm_modulator> sptr;
@@ -46,7 +46,7 @@ namespace gr {
        * class. ieee802_15_4a::bpsk_bpm_modulator::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int code_index, int Nburst = 32, int Ncpb = 16, const std::string& len_tag_key="packet_len");
+      static sptr make(int code_index, int Nburst = 32, int Ncpb = 16);
     };
 
   } // namespace ieee802_15_4a

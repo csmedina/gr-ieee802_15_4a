@@ -23,7 +23,7 @@
 #define INCLUDED_IEEE802_15_4A_CONV_ENCODER_H
 
 #include <ieee802_15_4a/api.h>
-#include <gnuradio/tagged_stream_block.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace ieee802_15_4a {
@@ -33,7 +33,7 @@ namespace gr {
      * \ingroup ieee802_15_4a
      *
      */
-    class IEEE802_15_4A_API conv_encoder : virtual public gr::tagged_stream_block
+    class IEEE802_15_4A_API conv_encoder : virtual public gr::block
     {
      public:
       typedef boost::shared_ptr<conv_encoder> sptr;
@@ -46,7 +46,7 @@ namespace gr {
        * class. ieee802_15_4a::conv_encoder::make is the public interface for
        * creating new instances.
        */
-       static sptr make(int bypass = 0, const std::string& len_tag_key="packet_len");
+       static sptr make(int bypass = 0);
     };
 
   } // namespace ieee802_15_4a

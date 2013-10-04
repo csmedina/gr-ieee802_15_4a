@@ -45,7 +45,9 @@ if _RTLD_GLOBAL != 0:
 from ieee802_15_4a_swig import *
 
 # import any pure python here
-from transmitter import transmitter
+
+from ieee804154a_uwb_pkt import ieee804154a_uwb_pkt
+
 #
 
 # ----------------------------------------------------------------

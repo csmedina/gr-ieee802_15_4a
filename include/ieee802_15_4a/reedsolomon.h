@@ -23,30 +23,31 @@
 #define INCLUDED_IEEE802_15_4A_REEDSOLOMON_H
 
 #include <ieee802_15_4a/api.h>
-#include <gnuradio/block.h>
+#include <gnuradio/types.h>
 
 namespace gr {
   namespace ieee802_15_4a {
 
     /*!
-     * \brief <+description of block+>
-     * \ingroup ieee802_15_4a
+     * \brief <+description+>
      *
      */
-    class IEEE802_15_4A_API reedsolomon : virtual public gr::block
+    class IEEE802_15_4A_API reedsolomon
     {
-     public:
-      typedef boost::shared_ptr<reedsolomon> sptr;
-
-      /*!
-       * \brief Return a shared_ptr to a new instance of ieee802_15_4a::reedsolomon.
-       *
-       * To avoid accidental use of raw pointers, ieee802_15_4a::reedsolomon's
-       * constructor is in a private implementation
-       * class. ieee802_15_4a::reedsolomon::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int datasize, int encode = 1);
+    public:
+      reedsolomon();
+      ~reedsolomon();
+      
+      static int outputSize (int ninput, int encode);
+      
+      void encode (const unsigned char *msg, int len, unsigned char *codedMsg);	  
+	  void decode (const unsigned char *codedMsg, int len, unsigned char *msg);
+	  
+    private:
+	  void *handle;
+      
+      void int_encode (const unsigned char *msg, int len, unsigned char *codedMsg);	  
+	  void int_decode (const unsigned char *codedMsg, int len, unsigned char *msg);
     };
 
   } // namespace ieee802_15_4a

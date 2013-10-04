@@ -26,20 +26,19 @@
 namespace gr {
   namespace ieee802_15_4a {
 
-    class reedsolomon_impl : public reedsolomon
+    class reedsolomon
     {
      private:
       void *handle;
       int _encode;
-      int _datasize;
       
       void encode (const unsigned char *msg, int len, unsigned char *codedMsg);
 	  
 	  void decode (const unsigned char *codedMsg, int len, unsigned char *msg);
      
      public:
-      reedsolomon_impl(int datasize, int encode = 1);
-      ~reedsolomon_impl();
+      reedsolomon();
+      ~reedsolomon();
 
       // Where all the action really happens
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);
@@ -48,6 +47,8 @@ namespace gr {
 		       gr_vector_int &ninput_items,
 		       gr_vector_const_void_star &input_items,
 		       gr_vector_void_star &output_items);
+		       
+		void insert_msg (unsigned char *msg, int msg_size);
     };
 
   } // namespace ieee802_15_4a

@@ -34,16 +34,15 @@ namespace gr {
       int _Ncpb;
       int _code_index;
       lfsr _lfsr;
-     
-     protected:
-      int calculate_output_stream_length(const gr_vector_int &ninput_items);
 
      public:
-      bpsk_bpm_modulator_impl(int code_index, int Nburst = 32, int Ncpb = 16, const std::string& len_tag_key="packet_len");
+      bpsk_bpm_modulator_impl(int code_index, int Nburst = 32, int Ncpb = 16);
       ~bpsk_bpm_modulator_impl();
 
       // Where all the action really happens
-      int work(int noutput_items,
+      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+
+      int general_work(int noutput_items,
 		       gr_vector_int &ninput_items,
 		       gr_vector_const_void_star &input_items,
 		       gr_vector_void_star &output_items);
