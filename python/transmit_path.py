@@ -35,7 +35,7 @@ from ieee804154a_uwb_pkt import ieee804154a_uwb_mod_pkt
 randBinList = lambda n: [randint(0,1) for b in range(1,n+1)]
 
 class transmit_path (gr.top_block):
-    def __init__(self, code_index, code_size, DataRate_Kbps, Nburst, Ncpb, MeanPRF_KHz, Nsync, deltaL, Nsdf, bypass_conv_enc, isRangingPacket):
+    def __init__(self, code_index, code_size, DataRate_Kbps, Nburst, Ncpb, MeanPRF_KHz, Nsync, deltaL, Nsdf, bypass_conv_enc, isRangingPacket, msgq_limit):
         gr.top_block.__init__(self)
         
         self.code_index = code_index
@@ -50,11 +50,9 @@ class transmit_path (gr.top_block):
         self.bypass_conv_enc = bypass_conv_enc
         self.isRangingPacket = isRangingPacket
         
-        self.synch_seq = ieee802_15_4a.msg_formatter.set_synch(code_size, code_index, Nsync, deltaL, Nsdf)
-      
-        self.modulator = ieee804154a_uwb_mod_pkt (5)
-        
-        self.sink = blocks.file_sink (1, "output_tx.txt")
+        self.modulator = ieee804154a_uwb_mod_pkt (code_index, code_size, DataRate_Kbps, Nburst, Ncpb, MeanPRF_KHz, Nsync, deltaL, Nsdf, bypass_conv_enc, isRangingPacket, msgq_limit)
+         
+        self.sink = blocks.file_sink (1, "output_joint.txt")
         
         self.connect (self.modulator, self.sink)
         
@@ -62,7 +60,9 @@ class transmit_path (gr.top_block):
         """
         Calls the transmitter method to send a packet
         """
-        return self.modulator.send_pkt(payload, self.Nsync, self.DataRate_Kbps, self.MeanPRF_KHz, self.isRangingPacket, eof)
+        print 'Sending '
+        print payload
+        return self.modulator.send_pkt(payload, eof)
         
 def main():
     DataRate_Kbps = 850;
@@ -77,9 +77,11 @@ def main():
     Nburst = 32;
     Ncpb = 16;
     
-    put = transmit_path(code_index, code_size, DataRate_Kbps, Nburst, Ncpb, MeanPRF_KHz, Nsync, deltaL, Nsdf, bypass_conv_enc, isRangingPacket )
+    msgq_limit = 2;
+    
+    put = transmit_path(code_index, code_size, DataRate_Kbps, Nburst, Ncpb, MeanPRF_KHz, Nsync, deltaL, Nsdf, bypass_conv_enc, isRangingPacket, msgq_limit)
     put.start()
-    put.send_pkt ('esta é minha menssagem')
+    put.send_pkt ('esta é minha menssagem!!!!')
     put.wait()
 
     

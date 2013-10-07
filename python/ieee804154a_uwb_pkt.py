@@ -36,7 +36,7 @@ class ieee804154a_uwb_mod_pkt(gr.hier_block2):
 
     Send packets by calling send_pkt
     """
-    def __init__(self, code_index, Nburst=32, Ncpb=16, bypass_conv_enc=0, msgq_limit=2, pad_for_usrp=True):
+    def __init__(self, code_index, code_size=31, DataRate_Kbps=850, Nburst=32, Ncpb=16, MeanPRF_KHz=15600, Nsync=64, deltaL=16, Nsdf=8, bypass_conv_enc=0, isRangingPacket=0, msgq_limit=2):
         """
 	Hierarchical block for the IEEE 802.15.4a UWB modulation.
 
@@ -55,22 +55,49 @@ class ieee804154a_uwb_mod_pkt(gr.hier_block2):
         gr.hier_block2.__init__(self, "ieee804154a_uwb_mod_pkt",
 				gr.io_signature(0, 0, 0),                    # Input signature
 				gr.io_signature(1, 1, gr.sizeof_char)) # Output signature
-				
-        self.pad_for_usrp = pad_for_usrp
+				        
+        # setting parameters
+        self.code_index = code_index
+        self.code_size = code_size
+        self.DataRate_Kbps = DataRate_Kbps
+        self.Nburst = Nburst
+        self.Ncpb = Ncpb
+        self.MeanPRF_KHz = MeanPRF_KHz
+        self.Nsync = Nsync
+        self.deltaL = deltaL
+        self.Nsdf = Nsdf
+        self.bypass_conv_enc = bypass_conv_enc
+        self.isRangingPacket = bypass_conv_enc
         
+        ############ THE SYNCH PATH
+        # synchronization header
+        self.synch_seq = ieee802_15_4a.msg_formatter.set_synch(self.code_size, self.code_index, self.Nsync, self.deltaL, self.Nsdf)
+        self.synch_msg = gr.message_from_string(self.synch_seq)
+        self._synch_input = blocks.message_source(gr.sizeof_char, msgq_limit)
+        
+        ############ THE MAIN PATH
         # accepts messages from the outside world
         self._pkt_input = blocks.message_source(gr.sizeof_char, msgq_limit)
         
         # convolutional encoding
-        self._convolutional_encoder = ieee802_15_4a.conv_encoder (bypass_conv_enc);
+        self._convolutional_encoder = ieee802_15_4a.conv_encoder (self.bypass_conv_enc);
         
         # BPSK BPM modulator
-        self._modulator = ieee802_15_4a.bpsk_bpm_modulator(code_index, Nburst, Ncpb)
+        self._modulator = ieee802_15_4a.bpsk_bpm_modulator(self.code_index, self.Nburst, self.Ncpb)
         
         # connect the blocks
-        self.connect(self._pkt_input, self._convolutional_encoder, self._modulator, self)
+        self.connect(self._pkt_input, self._convolutional_encoder, self._modulator)
         
-    def send_pkt(self, payload='', Nsync=64, DataRate_Kbps=850, MeanPRF_KHz=15600, isRangingPacket=0, eof=False):
+        # THE CONNECTION BETWEEN THE PATHS
+        self.delay = blocks.delay (gr.sizeof_char, len(self.synch_seq))
+        self.sum2 = blocks.or_bb(1);
+        
+        self.connect (self._synch_input, (self.sum2, 0))
+        self.connect (self._modulator, self.delay)
+        self.connect (self.delay, (self.sum2, 1))
+        self.connect (self.sum2, self)
+        
+    def send_pkt(self, payload='', eof=False):
         """
         Send the payload.
 
@@ -81,10 +108,18 @@ class ieee804154a_uwb_mod_pkt(gr.hier_block2):
         if eof:
             msg = gr.message(1) # tell self._pkt_input we're not sending any more packets
         else:
-            msg = ieee802_15_4a.make_from_string_Bb(payload, Nsync, DataRate_Kbps, MeanPRF_KHz, isRangingPacket)
+            msg = ieee802_15_4a.make_from_string_Bb(payload, self.Nsync, self.DataRate_Kbps, self.MeanPRF_KHz, self.isRangingPacket)
         
+        # insert the synch header
+        self._synch_input.msgq().insert_tail(self.synch_msg)
+        # insert the tail to complete the transmission
+        sizepayload = len(msg.to_string()) * self.Nburst * self.Ncpb;
+        t = struct.pack ('B', 0)
+        tail = gr.message_from_string(t * sizepayload)
+        self._synch_input.msgq().insert_tail(tail)
+        
+        # insert the payload
         self._pkt_input.msgq().insert_tail(msg)
-
 
 class _queue_watcher_thread(_threading.Thread):
     def __init__(self, rcvd_pktq, callback):
